@@ -22,7 +22,7 @@ const Navbar = (props) => {
                 
                 <div className="navbar-menu" id="navbarMenuHeroB">
                     <div className="navbar-end">
-                        <div className="navbar-item">
+                        <div className="navbar-item">   
                             <a className="navbar-item" onClick={handleClick}>
                                 <Link to="/project08/" className="navbar-item">Home</Link>
                             </a>
@@ -34,14 +34,14 @@ const Navbar = (props) => {
                             </a>
                             {props.isLoggedIn
                             ? <div className="navbar-button">
-                            <Link to="/users" className="button is-danger is-rounded" onClick={props.handleLogout}>Logout</Link>
+                            <Link to="/users" className="button is-danger is-rounded" onClick={props.onLogout}>Logout</Link>
                             </div>
                             : <div className="buttons is-centered">
                             <div className="navbar-button">
-                                <Link to="/project08/users" className="button is-rounded is-primary" onClick={handleClick}>Login</Link>
+                                <Link to="/project08/users" className="button is-rounded is-primary">Login</Link>
                             </div>
                             <div className="navbar-button">
-                                <Link to="/project08/users/register" className="button is-rounded is-danger" onClick={handleClick}>Sign Up!</Link>
+                                <Link to="/project08/users/register" className="button is-rounded is-danger">Sign Up!</Link>
                             </div>
                             </div>}
                         </div>

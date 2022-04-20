@@ -1,82 +1,93 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { apiURL } from '../config'
 import FetchAPI from '../fetch'
 
-const MarketClose = (props) => {
-    const clock = props.clock
+class MarketClose extends Component {
+    render() {
+        const clock = this.props.clock
+        console.log('clock', clock)
 
-    if (clock.timestamp !== null) {
-        const futureDate = clock.nextOpen.getTime()
-        const currentDate = clock.timestamp.getTime()
-        const countdown = futureDate - currentDate
+        if (clock.timestamp !== null) {
+            const futureDate = clock.nextOpen.getTime()
+            const currentDate = clock.timestamp.getTime()
+            const countdown = futureDate - currentDate
 
-        const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
-        
-        if (days < 1) {
-            return(
-                <div>
-                    Market is <strong>closed</strong>, but will open in 
-                    <strong className='timer'> {hours}h {minutes}m {seconds}s</strong>.
-                </div>
-            )
+            const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
+            
+            if (days < 1) {
+                return(
+                    <div>
+                        Market is <strong>closed</strong>, but will open in 
+                        <strong className='timer'> {hours}h {minutes}m {seconds}s</strong>.
+                    </div>
+                )
+            } else {
+                return(
+                    <div>
+                        Market is <strong>closed</strong>, but will open in 
+                        <strong className='timer'> {days}d {hours}h {minutes}m {seconds}s</strong>.
+                    </div>
+                )
+            }
+
         } else {
             return(
-                <div>
-                    Market is <strong>closed</strong>, but will open in 
-                    <strong className='timer'> {days}d {hours}h {minutes}m {seconds}s</strong>.
-                </div>
+                <div>Checking if the market is open...</div>
             )
         }
+    }
+}
 
-    } else {
+class MarketOpen extends Component {
+    render() {
         return(
-            <div>Checking if the market is open...</div>
+            <div>
+                <div>Market is <strong>open.</strong></div>
+                {this.props.children}
+            </div>
         )
     }
 }
 
-const MarketOpen = (props) => {
-    return(
-        <div>
-            <div>Market is <strong>open.</strong></div>
-            {props.children}
-        </div>
-    )
-}
-
-const MarketClock = (props) => {
-    // TODO: fix clock
-
-    const [timerID, setTimerID] = useState(null)
-    const [state, setState] = useState({
-        timestamp: null,
-        nextOpen: null,
-        nextClose: null,
-        isOpen: null
-    })
-
-    // const timerID = setInterval(
-    //     () => tick(),
-    //     1000
-    // )
-
-    const loginError = (error) => {
-        alert(error)
-        clearInterval(timerID)
+export default class MarketClock extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            timestamp: null,
+            nextOpen: null,
+            nextClose: null,
+            isOpen: false
+        }
     }
 
-    const tick = () => {
+    loginError(error) {
+        alert(error)
+        clearInterval(this.timerID);
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
+      }
+    
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+    
+    tick() {
         const url = apiURL + '/api/alpaca/clock/'
 
         try {
-            FetchAPI(url, props.cookies, null)
+            FetchAPI(url, this.props.cookies, null)
             .then(result => {
                 result instanceof Error
-                ? loginError(result)
-                : setState({
+                ? this.loginError(result)
+                : this.setState({
                     timestamp: new Date(result.timestamp),
                     nextOpen: new Date(result.next_open),
                     nextClose: new Date(result.next_close),
@@ -87,27 +98,21 @@ const MarketClock = (props) => {
 
         catch {
             let err = new Error(' Please log in.')
-            loginError(err)
+            this.loginError(err)
         }
+
     }
 
-    useEffect(() => {
-        setTimerID(timerID = setInterval(() => tick()))
-
+    render() {
         return(
-            setTimerID(clearInterval(timerID))
+            <div className="container">                
+                {this.state.isOpen
+                ? <MarketOpen clock={this.state} >
+                    {this.props.children}
+                </MarketOpen>
+                : <MarketClose clock={this.state} />}
+            </div>
+
         )
-    })
-
-    return(
-        <div className="container">                
-            {state.isOpen
-            ? <MarketOpen clock={state} >
-                {props.children}
-            </MarketOpen>
-            : <MarketClose clock={state} />}
-        </div>
-    )
+    }
 }
-
-export default MarketClock;

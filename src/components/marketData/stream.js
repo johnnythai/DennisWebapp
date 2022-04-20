@@ -245,12 +245,14 @@ const AlpacaWebsocket = (props) => {
         }))
     }
 
+    console.log('market state', state)
+
     return(
         <div className="container">
             <AlpacaWebsocketChannels channels={state.channels} />
             
             <div>
-                {this.state.isConnected
+                {state.isConnected
                 ? <div>
                     <ChannelsForm onFilter={handleFilter} onReset={handleReset} onStream={handleStream} />
                     <Websocket url={urlWithAccess}

@@ -14,26 +14,28 @@ import { UsersApp } from './components/users/users';
 import { RegisterForm } from './components/users/registerForm'
 
 
-const App = (props) => {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [cookies, setCookie, removeCookie] = useCookies(['cookies'])
 
   const handleLogin = () => {
-    setIsLoggedIn(isLoggedIn = true)
+    setIsLoggedIn(true)
   }
 
   const handleLogout = () => {
-    console.log('logging out')
-    console.log('cookies', props.cookies)
-    props.cookies.set(
-      'access_token', 'removed'
-    )
-
-    setIsLoggedIn(isLoggedIn = false)
+    removeCookie('access_token')
+    setIsLoggedIn(false)
   }
 
   useEffect(() => {
-    console.log('cookies: ', cookies)
+    console.log('isLoggedIn', isLoggedIn)
+    if ('access_token' in cookies) {
+        if (cookies.access_token !== 'removed') {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false )
+        }
+    }
 
     fetch(apiURL + '/api/alpaca/CSRF/',
     {

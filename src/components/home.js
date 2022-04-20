@@ -4,8 +4,9 @@ import '../scss/styles.scss'
 const HomeBody = () => {
     return(
         <div className="homeBody">
-            <br /> This web app was built to interact with the alpaca trading api and is used to display data and test trading algorithms.<br /> 
-            <br /> Log in with
+            <br /> This web app was built to interact with the Alpaca paper trading api and is used to display data and test trading algorithms.
+            This Alpaca paper trading account is owned by Johnny Thai and is used for educational purposes only.<br /> 
+            <br /> Log in to get access to all features.
             <br /> username: user1
             <br /> password: mintchip1
         </div>

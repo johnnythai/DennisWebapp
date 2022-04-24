@@ -54,12 +54,11 @@ const App = () => {
           <Navbar isLoggedIn={isLoggedIn} onLogin={handleLogin} onLogout={handleLogout} />
 
           <Routes>
-            <Route path="/project08/dashboard" element={<Dashboard isLoggedIn={isLoggedIn} />} />
-            <Route path="/project08/users/register" element={<RegisterForm />} />
-            <Route path="/project08/users" element={<UsersApp isLoggedIn={isLoggedIn} onLogin={handleLogin} />} />
-            <Route path="/project08/market" element={<MarketData />} />
-            <Route path="/project08/home" element={<Home />} />
-            <Route path="/project08/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard isLoggedIn={isLoggedIn} />} />
+            <Route path="/users/register" element={<RegisterForm />} />
+            <Route path="/users" element={<UsersApp isLoggedIn={isLoggedIn} onLogin={handleLogin} />} />
+            <Route path="/market" element={<MarketData />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/" element={<Home />} />
           </Routes>
 

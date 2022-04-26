@@ -12,6 +12,12 @@ $navbar-item-hover-background-color: #ffffff00;
 $navbar-item-hover-color: $primary;
 $footer-padding: 2rem 1.5rem 4rem;
 
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
 .navbar {
     position: fixed;
     box-shadow: 0 .5em 1em -.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.01);
@@ -21,10 +27,6 @@ $footer-padding: 2rem 1.5rem 4rem;
 .navbar-brand {
     font-weight: 700;
     font-size: x-large;
-}
-
-.homeBody {
-    margin-bottom: 200px;
 }
 
 .footer-text {

@@ -53,14 +53,16 @@ const App = () => {
         <BrowserRouter>
           <Navbar isLoggedIn={isLoggedIn} onLogin={handleLogin} onLogout={handleLogout} />
 
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard isLoggedIn={isLoggedIn} />} />
-            <Route path="/users/register" element={<RegisterForm />} />
-            <Route path="/users" element={<UsersApp isLoggedIn={isLoggedIn} onLogin={handleLogin} />} />
-            <Route path="/market" element={<MarketData />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
+          <main className="container">
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard isLoggedIn={isLoggedIn} />} />
+              <Route path="/users/register" element={<RegisterForm />} />
+              <Route path="/users" element={<UsersApp isLoggedIn={isLoggedIn} onLogin={handleLogin} />} />
+              <Route path="/market" element={<MarketData />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </main>
 
           <Footer />
         </BrowserRouter>

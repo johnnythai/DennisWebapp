@@ -33,6 +33,12 @@ body {
     font-size: small;
 }
 
+.home-body {
+    height: 50rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
 @import "../../node_modules/bulma/sass/components/_all.sass";
 @import "../../node_modules/bulma/sass/elements/_all.sass";
 @import '../../node_modules/bulma/sass/form/_all.sass';
